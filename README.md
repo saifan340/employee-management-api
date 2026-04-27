@@ -1,91 +1,147 @@
-# 🚀 Employee Management APIA RESTful API built with Flask for managing employees with secure authentication using JWT.  This project demonstrates backend development skills including API design, authentication, and database management.---## 📌 Features- 🔐 User Registration & Login- 🔑 JWT Authentication (secure endpoints)- 👨‍💼 Employee Management (CRUD)  - Create employee  - Read employees  - Update employee  - Delete employee- 🗄️ SQLite Database- 🔒 Protected routes (only authenticated users can access data)---## 🛠️ Tech Stack- Python- Flask- Flask-SQLAlchemy- Flask-JWT-Extended- SQLite---## 📂 Project Structure
-employee_api/
-│
+# Employee Management API
+
+A RESTful API built with Flask for managing employees with JWT authentication. Each user only sees their own employee data.
+
+---
+
+## Features
+
+- User registration and login
+- JWT-protected endpoints
+- Employee CRUD (create, read, update, delete)
+- User-scoped data — employees belong to the authenticated user
+- SQLite database
+
+---
+
+## Tech Stack
+
+- Python / Flask
+- Flask-SQLAlchemy
+- Flask-JWT-Extended
+- SQLite
+
+---
+
+## Project Structure
+
+```
+employee2_api/
 ├── app.py
 ├── extensions.py
 ├── models.py
 ├── routes/
 │   ├── auth.py
-│   └── employees.py
+│   ├── employees.py
+│   └── salaries.py
 ├── instance/
 │   └── database.db
 ├── requirements.txt
 └── README.md
----## ⚙️ Installation & Setup
-### 1. Clone the repository
+```
+
+---
+
+## Setup
+
 ```bash
-git clone https://github.com/YOUR_USERNAME/employee-management-api.gitcd employee-management-api
+# Clone the repo
+git clone https://github.com/saifan340/employee-management-api.git
+cd employee-management-api
 
-2. Create virtual environment
-python -m venv venvsource venv/bin/activate  # Mac/Linuxvenv\Scripts\activate     # Windows
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate       # Mac/Linux
+venv\Scripts\activate          # Windows
 
-3. Install dependencies
+# Install dependencies
 pip install -r requirements.txt
 
-4. Run the application
+# Run the server
 python app.py
-Server will run on:
-http://127.0.0.1:5000/
+```
 
-🔐 Authentication
-This API uses JWT (JSON Web Token).
-After login, you will receive a token:
-{  "token": "your_jwt_token_here"}
-Use it in requests:
-Authorization: Bearer YOUR_TOKEN
+Server runs at `http://127.0.0.1:5000`
 
-📡 API Endpoints
-🔐 Auth
-MethodEndpointDescriptionPOST/registerRegister a userPOST/loginLogin and get JWT
+---
 
-👨‍💼 Employees (Protected)
-MethodEndpointDescriptionGET/employeesGet all employeesPOST/employeesAdd new employeePUT/employees/<id>Update employeeDELETE/employees/<id>Delete employee
+## Authentication
 
-🧪 Example Request
-Create Employee
-POST /employees{  "name": "Ali",  "position": "Backend Developer"}
+This API uses JWT. After login, include the token in all protected requests:
 
-🎯 What I Learned
+```
+Authorization: Bearer <your_token>
+```
 
+---
 
-Building RESTful APIs with Flask
+## API Endpoints
 
+### Auth
 
-Implementing JWT Authentication
+| Method | Endpoint    | Description              |
+|--------|-------------|--------------------------|
+| POST   | `/register` | Register a new user      |
+| POST   | `/login`    | Login and receive a JWT  |
 
+**Register**
+```json
+POST /register
+{
+  "username": "saifan",
+  "password": "password123"
+}
+```
 
-Structuring scalable backend projects
+**Login**
+```json
+POST /login
+{
+  "username": "saifan",
+  "password": "password123"
+}
+```
+Response:
+```json
+{
+  "message": "Login successful",
+  "token": "eyJ..."
+}
+```
 
+---
 
-Working with relational databases (SQLite)
+### Employees (Protected)
 
+All endpoints require `Authorization: Bearer <token>`. Employees are scoped to the authenticated user.
 
-Handling protected routes and user-based data
+| Method | Endpoint              | Description          |
+|--------|-----------------------|----------------------|
+| GET    | `/employees`          | Get all employees    |
+| POST   | `/employees`          | Add a new employee   |
+| PUT    | `/employees/<id>`     | Update an employee   |
+| DELETE | `/employees/<id>`     | Delete an employee   |
 
+**Add Employee**
+```json
+POST /employees
+{
+  "name": "Ali",
+  "position": "Backend Developer"
+}
+```
 
+**Update Employee**
+```json
+PUT /employees/1
+{
+  "name": "Ali Hassan",
+  "position": "Senior Developer"
+}
+```
 
-🚀 Future Improvements
+---
 
+## Author
 
-Add salary management module
-
-
-Pagination & filtering
-
-
-Role-based access control (Admin/User)
-
-
-Deploy to cloud (Render / Railway)
-
-
-
-👨‍💻 Author
-
-
-GitHub: https://github.com/saifan340
-
-
-
-⭐ If you like this project
-Give it a star ⭐ on GitHub!
+GitHub: [saifan340](https://github.com/saifan340)
